@@ -1,0 +1,31 @@
+name: "Example"
+on:
+  workflow_dispatch:
+
+jobs:
+  create-runner:
+    name: Create Hetzner Cloud runner
+    runs-on: ubuntu-latest
+    
+    outputs:
+      label: ${{ steps.create-hcloud-runner.outputs.label }}
+      server_id: ${{ steps.create-hcloud-runner.outputs.server_id }}
+      
+    steps:
+      - name: Generate GitHub token
+        id: generate_token
+        uses: actions/create-github-app-token@v2
+        with:
+          app-id: ${{ secrets.GH_APP_SHRHC_ID }}
+          private-key: ${{ secrets.GH_APP_SHRHC_PRIVATE_KEY }}
+          
+      - name: Create runner
+        id: create-hcloud-runner
+        uses: Cyclenerd/hcloud-github-runner@v1
+        with:
+          mode: create
+          github_token: ${{ steps.generate_token.outputs.token }}
+          hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
+          server_type: cx33
+          location: hel1  # Nuremberg, Germany
+          image: "371098213"
