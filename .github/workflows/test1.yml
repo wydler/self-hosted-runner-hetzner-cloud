@@ -29,3 +29,4 @@ jobs:
           server_type: cx33
           location: hel1  # Nuremberg, Germany
           image: "371098213"
+          server_wait: "60"
