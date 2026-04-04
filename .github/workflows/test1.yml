@@ -36,3 +36,4 @@ jobs:
           image: "373278316"
           server_wait: "120"
           name: "gh-runner-${{ matrix.runner }}"
+          runner_scope: "org"
