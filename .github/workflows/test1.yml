@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        runner: [1, 2]  # 2 Runner erzeugen
+        runner: [1]  # 2 Runner erzeugen
         
     steps:
       - name: Generate GitHub token
