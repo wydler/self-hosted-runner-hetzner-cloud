@@ -31,7 +31,7 @@ jobs:
           github_token: ${{ steps.generate_token.outputs.token }}
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
           server_type: cx33
-          location: hel1  # Nuremberg, Germany
+          location: nbg1  # Nuremberg, Germany
           image: "371098213"
           server_wait: "120"
           name: "gh-runner-${{ matrix.runner }}"
