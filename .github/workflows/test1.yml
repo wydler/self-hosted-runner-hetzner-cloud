@@ -25,7 +25,8 @@ jobs:
           
       - name: Create runner
         id: create-hcloud-runner
-        uses: Cyclenerd/hcloud-github-runner@54da4707b01dfca5dd38cd15cde4afcd950f2b4a  # v1.4.0
+        # uses: Cyclenerd/hcloud-github-runner@54da4707b01dfca5dd38cd15cde4afcd950f2b4a  # v1.4.0
+        uses: wydler/hcloud-self-hosted-github-runner@customize
         with:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
