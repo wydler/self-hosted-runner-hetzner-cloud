@@ -32,6 +32,6 @@ jobs:
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
           server_type: cx33
           location: fsn1  # Nuremberg, Germany
-          image: "ubuntu24-20260404.1"
+          image: "373278316"
           server_wait: "120"
           name: "gh-runner-${{ matrix.runner }}"
