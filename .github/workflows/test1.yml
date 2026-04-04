@@ -27,7 +27,7 @@ jobs:
         id: create-hcloud-runner
         # uses: Cyclenerd/hcloud-github-runner@54da4707b01dfca5dd38cd15cde4afcd950f2b4a  # v1.4.0
         # uses: wydler/hcloud-self-hosted-github-runner@customize
-        uses: getupcloud-images/hcloud-github-runner@main
+        uses: getupcloud-images/hcloud-github-runner@master
         with:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
