@@ -10,7 +10,11 @@ jobs:
     outputs:
       label: ${{ steps.create-hcloud-runner.outputs.label }}
       server_id: ${{ steps.create-hcloud-runner.outputs.server_id }}
-      
+
+    strategy:
+      matrix:
+        runner: [1, 2, 3, 4, 5]  # 5 Runner erzeugen
+        
     steps:
       - name: Generate GitHub token
         id: generate_token
@@ -30,3 +34,4 @@ jobs:
           location: hel1  # Nuremberg, Germany
           image: "371098213"
           server_wait: "120"
+          name: "gh-runner-${{ matrix.runner }}"
