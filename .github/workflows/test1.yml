@@ -38,3 +38,4 @@ jobs:
           server_wait: "120"
           # name: "gh-runner-${{ matrix.runner }}"
           runner_scope: "repo"
+          create_wait: "6" # 6*10 Sekunden = 1 Minute
