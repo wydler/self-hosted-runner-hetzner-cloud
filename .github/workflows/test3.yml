@@ -1,0 +1,79 @@
+---
+name: Cleanup orphan runners
+
+on:
+  workflow_dispatch:
+
+env:
+  ORG: "wydler"
+
+  
+jobs:
+  collect:
+    name: test1
+    runs-on: ubuntu-latest
+
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      token: ${{ steps.generate-token.outputs.token }}
+
+    steps:
+      - name: Generate GitHub token
+        id: generate-token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859  # v3.0.0
+        with:
+          app-id: ${{ secrets.GH_APP_SHRHC_ID }}
+          private-key: ${{ secrets.GH_APP_SHRHC_PRIVATE_KEY }}
+          
+      - name: Get runners
+        id: runners
+        env:
+          GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          gh api /orgs/$ORG/actions/runners --paginate > runners.json
+
+      - name: Build delete matrix
+        id: matrix
+        run: |
+          MATRIX=$(
+            jq -c '
+            [
+              .runners[]
+              | select(.status == "offline")
+              | {
+                  runner: .name,
+                  server_id: (
+                    .labels[]
+                    | select(.name | startswith("server_id-"))
+                    | .name
+                    | sub("server_id-"; "")
+                  )
+                }
+              | select(.server_id != null)
+            ]
+            ' runners.json
+          )
+
+          echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
+
+
+  delete:
+    name: test1
+    runs-on: ubuntu-latest
+    needs: collect
+
+    if: ${{ needs.collect.outputs.matrix != '[]' }}
+
+    strategy:
+      matrix:
+        include: ${{ fromJson(needs.collect.outputs.matrix) }}
+
+    steps:
+      - name: Delete server
+        uses: getupcloud-images/hcloud-github-runner@085e13c939204d85525bd6df37d6027bf0a1afef
+        with:
+          mode: delete
+          github_token: ${{ needs.collect.outputs.token }}
+          hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
+          server_id: ${{ matrix.server_id }}
+          server_wait: "120"
