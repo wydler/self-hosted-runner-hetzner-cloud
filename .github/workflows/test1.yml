@@ -5,7 +5,8 @@ on:
    workflow_dispatch:
      inputs:
        location:
-        type: choice 
+        type: choice
+        description: Location
         required: false
         options: 
           - hel1  # Helsinki, Finnland
@@ -13,7 +14,8 @@ on:
           - nbg1  # Nuremberg, Germany
         default: "hel1"     
        os:
-        type: choice 
+        type: choice
+        description: Operating System
         required: false
         options: 
           - ubuntu-22.04
@@ -21,6 +23,7 @@ on:
         default: "ubuntu-24.04"
        servertype:
         type: choice 
+        description: Server Type
         required: true
         options:
           - cx33
