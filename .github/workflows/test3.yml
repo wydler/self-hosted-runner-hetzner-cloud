@@ -39,7 +39,6 @@ jobs:
             jq -c '
             [
               .runners[]
-              | select(.status == "offline")
               | {
                   runner: .name,
                   server_id: (
@@ -53,7 +52,7 @@ jobs:
             ]
             ' runners.json
           )
-
+      
           echo "matrix=$MATRIX" >> $GITHUB_OUTPUT
 
 
