@@ -1,6 +1,32 @@
+---
 name: "Example"
-on:
-  workflow_dispatch:
+
+on:      
+   workflow_dispatch:
+     inputs:
+       location:
+        type: choice 
+        required: false
+        options: 
+          - hel1  # Helsinki, Finnland
+          - fsn1  # Falkenstein, Germany
+          - nbg1  # Nuremberg, Germany
+        default: "hel1"     
+       os:
+        type: choice 
+        required: false
+        options: 
+          - ubuntu-22.04
+          - ubuntu-24.04
+        default: "ubuntu-24.04"
+       servertype:
+        type: choice 
+        required: true
+        options:
+          - cx33
+          - cpx22
+        default: "cx33"
+
 
 jobs:
   create-runner:
@@ -32,10 +58,10 @@ jobs:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-          server_type: cpx22
-          location: fsn1  # Nuremberg, Germany
+          server_type: ${{ inputs.servertype }}
+          location: ${{ inputs.location }}  
           image: "386465088"
           server_wait: "120"
           # name: "gh-runner-${{ matrix.runner }}"
           runner_scope: "repo"
-          create_wait: "6" # 6*10 Sekunden = 1 Minute
+          create_wait: "1" # 1*10 Sekunden = 10 Sekunden
