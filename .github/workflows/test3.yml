@@ -14,8 +14,8 @@ on:
          default: 'org'
 
          
-env:
-  ORG: "wydler"
+# env:
+#  ORG: "wydler"
 
   
 jobs:
@@ -38,8 +38,15 @@ jobs:
         id: runners
         env:
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
+          SCOPE: ${{ inputs.runner_scope }}
         run: |
-          gh api /orgs/$ORG/actions/runners --paginate > runners.json
+          if [ "$SCOPE" = "repo" ]; then
+            echo "Fetching repo runners"
+            gh api /repos/${{ github.repository }}/actions/runners --paginate > runners.json
+          else
+            echo "Fetching org runners"
+            gh api /orgs/${{ github.repository_owner }}/actions/runners --paginate > runners.json
+          fi
 
       - name: Build deletion matrix (extract server IDs from labels)
         id: matrix
