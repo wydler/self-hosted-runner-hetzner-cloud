@@ -43,9 +43,9 @@ jobs:
                   runner: .name,
                   server_id: (
                     .labels[]
-                    | select(.name | startswith("server_id-"))
+                    | select(.name | startswith("server_id="))
                     | .name
-                    | sub("server_id-"; "")
+                    | sub("server_id="; "")
                   )
                 }
               | select(.server_id != null)
