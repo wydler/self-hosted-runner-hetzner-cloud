@@ -139,5 +139,5 @@ jobs:
           image: ${{ needs.get-hcloud-snapshot.outputs.snapshot_id }}
           server_wait: "120"
           # name: "gh-runner-${{ matrix.runner }}"
-          runner_scope: "repo"
+          runner_scope: "org"
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
