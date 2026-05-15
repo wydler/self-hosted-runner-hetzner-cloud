@@ -1,5 +1,5 @@
 ---
-name: "Example"
+name: "Create Hetzner Cloud runner"
 
 on:      
    workflow_dispatch:
@@ -111,7 +111,7 @@ jobs:
 
 
   create-runner:
-    name: Create Hetzner Cloud runner
+    name: Create runner
     runs-on: ubuntu-latest
     needs:
       - get-hcloud-snapshot
@@ -133,7 +133,7 @@ jobs:
           app-id: ${{ secrets.GH_APP_SHRHC_ID }}
           private-key: ${{ secrets.GH_APP_SHRHC_PRIVATE_KEY }}
           
-      - name: Create runner ${{ matrix.runner }}
+      - name: Create runner instance
         id: create-hcloud-runner
         # uses: Cyclenerd/hcloud-github-runner@54da4707b01dfca5dd38cd15cde4afcd950f2b4a  # v1.4.0
         # uses: wydler/hcloud-self-hosted-github-runner@customize
