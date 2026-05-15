@@ -86,7 +86,7 @@ jobs:
           fi
         env:
            # Hetzner Cloud API Token aus GitHub Secrets
-           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+           HCLOUD_TOKEN: ${{ secrets.DW_HCLOUD_TOKEN_GHSHR_RW }}
 
       - name: Write ReleaseName
         run: echo "${{ steps.find_snapshot.outputs.id }}"
