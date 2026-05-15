@@ -30,6 +30,7 @@ on:
           - cpx22
         default: "cx33"
        runner_count:
+          type: string
           description: Number of runners
           required: true
           default: "2"
