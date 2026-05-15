@@ -12,7 +12,7 @@ on:
           - hel1  # Helsinki, Finnland
           - fsn1  # Falkenstein, Germany
           - nbg1  # Nuremberg, Germany
-        default: "hel1"     
+        default: "fsn1"     
        os:
         type: choice
         description: Operating System
