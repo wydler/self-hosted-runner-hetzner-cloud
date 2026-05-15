@@ -41,23 +41,31 @@ jobs:
         id: hcloud_snapshot
         run: |
           # List all available snapshots
-          echo -e "$(hcloud image list --type "snapshot" -l "os=${{ inputs.servertype }}" -s "id:desc")\n"
+          echo -e "$(hcloud image list --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc")\n"
 
           # Query
-          object=$(hcloud image list --output "columns=ID" --output "noheader" --type "snapshot" -l "os=${{ inputs.servertype }}" -s "id:desc" | tail -n +$((KEEP_SNAPSHOTS+1)) )
+          object=$(hcloud image list --output "columns=ID" --output "noheader" --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc" | head -n 1 )
           
           if [ -n "$object" ]; then
-            echo "$(echo $objects | wc -w) Snapshot(s) zum Löschen gefunden:"
+            
+            # 
+            echo ID: "$object"
 
-            echo ID: "$i"
-            echo "os=test" >> $GITHUB_OUTPUT
-            exit 0
+            #
+            echo "id=$object" >> $GITHUB_OUTPUT
           else
+            #
             echo "Keine Snapshot für das angegebene OS gefunden."
+
+            # 
             exit 1
           fi
         env:
            HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
+
+      - name: Write ReleaseName
+        run: echo "${{ steps.hcloud_snapshot.outputs.id }}"
+
     outputs:
       snapshot_id: ${{ steps.hcloud_snapshot.outputs.id }}
 
