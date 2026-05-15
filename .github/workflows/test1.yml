@@ -32,7 +32,7 @@ jobs:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-          server_type: cx33
+          server_type: cpx22
           location: fsn1  # Nuremberg, Germany
           image: "386465088"
           server_wait: "120"
