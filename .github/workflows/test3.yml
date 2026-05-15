@@ -81,4 +81,4 @@ jobs:
           github_token: ${{ steps.generate-token.outputs.token }}
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
           server_id: ${{ matrix.server_id }}
-          name: ${{ matrix.name }}
+          name: ${{ matrix.runner }}
