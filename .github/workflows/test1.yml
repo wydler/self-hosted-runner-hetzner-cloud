@@ -30,44 +30,49 @@ on:
 
 jobs:
   get-hcloud-snapshot:
-    name: Get current snapshot
+    name: Get Hetzner Cloud Snapshot ID
     runs-on: ubuntu-latest
 
     steps:
+      # Installiert die offizielle Hetzner Cloud CLI
       - name: Install Hetzner Cloud Cli
         uses: hetznercloud/setup-hcloud@ac9e7d74fb41a3ca44a6a3da123bd5aa70731e3a  # v2.0.0
 
-      - name: Query und delete snapshots
-        id: hcloud_snapshot
+      # Sucht nach dem neuesten Snapshot anhand des OS-Labels
+      - name: Looking for a snapshot ID
+        id: find_snapshot
         run: |
-          # List all available snapshots
+          # Alle verfügbaren Snapshots mit passendem OS-Label anzeigen
           echo -e "$(hcloud image list --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc")\n"
 
-          # Query
+          # Neueste Snapshot-ID ermitteln
           object=$(hcloud image list --output "columns=ID" --output "noheader" --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc" | head -n 1 )
           
           if [ -n "$object" ]; then
             
-            # 
+            # Gefundene Snapshot-ID ausgeben
             echo ID: "$object"
 
-            #
+            # Snapshot-ID für nachfolgende Steps exportieren
             echo "id=$object" >> $GITHUB_OUTPUT
+            
           else
-            #
+          
+            # Fehler ausgeben, wenn kein Snapshot gefunden wurde
             echo "Keine Snapshot für das angegebene OS gefunden."
 
-            # 
+            # Workflow mit Fehler beenden
             exit 1
           fi
         env:
+           # Hetzner Cloud API Token aus GitHub Secrets
            HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
 
       - name: Write ReleaseName
-        run: echo "${{ steps.hcloud_snapshot.outputs.id }}"
+        run: echo "${{ steps.find_snapshot.outputs.id }}"
 
     outputs:
-      snapshot_id: ${{ steps.hcloud_snapshot.outputs.id }}
+      snapshot_id: ${{ steps.find_snapshot.outputs.id }}
 
 
   create-runner:
