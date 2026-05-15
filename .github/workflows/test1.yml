@@ -30,18 +30,18 @@ on:
           - cpx22
         default: "cx33"
        runner_count:
-          type: string
-          description: Number of runners
-          required: true
-          default: "2"
+         type: string
+         description: Number of runners
+         required: true
+         default: "2"
        runner_scope:
-          description: Select scope for this runner:
-          required: false
-          type: 'choice'
-          options:
-          - repo
-          - org
-          default: 'org'
+         type: choice 
+         description: Select scope for this runner
+         required: false
+         options:
+           - repo
+           - org
+         default: 'org'
 
 jobs:
   get-hcloud-snapshot:
