@@ -13,10 +13,6 @@ on:
            - org
          default: 'org'
 
-         
-# env:
-#  ORG: "wydler"
-
   
 jobs:
   collect:
