@@ -14,3 +14,6 @@ jobs:
         run: |
           hostname
           uname -a
+
+          echo "Waiting for 2 minutes..."
+          sleep 120
