@@ -91,3 +91,4 @@ jobs:
           hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
           server_id: ${{ matrix.server_id }}
           name: ${{ matrix.runner }}
+          runner_scope: ${{ inputs.runner_scope }}
