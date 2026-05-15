@@ -3,6 +3,7 @@ name: Cleanup orphan runners
 
 on:
   workflow_dispatch:
+     inputs:  
        runner_scope:
          type: choice 
          description: Select scope for this runner
