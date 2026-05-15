@@ -42,6 +42,11 @@ on:
            - repo
            - org
          default: 'org'
+       hcloud_ssh_key:
+         type: string
+         description: ID des SSH Keys
+         required: false
+         default: "112347186"    
 
 jobs:
   get-hcloud-snapshot:
@@ -151,3 +156,4 @@ jobs:
           # name: "gh-runner-${{ matrix.runner }}"
           runner_scope: ${{ inputs.runner_scope }}
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
+          ssh_key: ${{ inputs.hcloud_ssh_key }}
