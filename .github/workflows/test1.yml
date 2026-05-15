@@ -54,7 +54,7 @@ jobs:
             exit 0
           else
             echo "Keine Snapshot für das angegebene OS gefunden."
-            exit 0
+            exit 1
           fi
         env:
            HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN }}
