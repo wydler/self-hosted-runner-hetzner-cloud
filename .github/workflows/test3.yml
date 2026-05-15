@@ -92,7 +92,7 @@ jobs:
         with:
           mode: delete
           github_token: ${{ steps.generate-token.outputs.token }}
-          hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
+          hcloud_token: ${{ secrets.DW_HCLOUD_TOKEN_GHSHR_RW }}
           server_id: ${{ matrix.server_id }}
           name: ${{ matrix.runner }}
           runner_scope: ${{ inputs.runner_scope }}
