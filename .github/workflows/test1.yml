@@ -148,7 +148,7 @@ jobs:
         with:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
-          hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
+          hcloud_token: ${{ secrets.DW_HCLOUD_TOKEN_GHSHR_RW }}
           server_type: ${{ inputs.servertype }}
           location: ${{ inputs.location }}  
           image: ${{ needs.get-hcloud-snapshot.outputs.snapshot_id }}
