@@ -34,6 +34,14 @@ on:
           description: Number of runners
           required: true
           default: "2"
+       runner_scope:
+          description: Select scope for this runner:
+          required: false
+          type: 'choice'
+          options:
+          - repo
+          - org
+          default: 'org'
 
 jobs:
   get-hcloud-snapshot:
@@ -139,5 +147,5 @@ jobs:
           image: ${{ needs.get-hcloud-snapshot.outputs.snapshot_id }}
           server_wait: "120"
           # name: "gh-runner-${{ matrix.runner }}"
-          runner_scope: "org"
+          runner_scope: ${{ inputs.runner_scope }}
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
