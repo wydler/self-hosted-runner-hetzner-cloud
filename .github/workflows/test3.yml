@@ -3,7 +3,16 @@ name: Cleanup orphan runners
 
 on:
   workflow_dispatch:
+       runner_scope:
+         type: choice 
+         description: Select scope for this runner
+         required: false
+         options:
+           - repo
+           - org
+         default: 'org'
 
+         
 env:
   ORG: "wydler"
 
