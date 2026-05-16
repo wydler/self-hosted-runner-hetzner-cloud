@@ -78,10 +78,13 @@ jobs:
     needs: create-runner # required to start the main job when the runner is ready
     runs-on: ${{ needs.create-runner.outputs.label }} # run the job on the newly created runner
     steps:
-      - name: Hello from runner
+      - name: Check runner
         run: |
-          dnf install podman -y
-          podman run "quay.io/podman/hello:latest"
+          hostname
+          uname -a
+
+          echo "Waiting for 2 minutes..."
+          sleep 120
 
   delete-runner:
     name: Delete Hetzner Cloud runner
