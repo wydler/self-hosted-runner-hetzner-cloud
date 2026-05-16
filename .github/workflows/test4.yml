@@ -59,7 +59,7 @@ jobs:
           
       - name: Create runner
         id: create-hcloud-runner
-        uses: wydler/hcloud-self-hosted-github-runner@adb07ecd3042326c0758fd08d9b9700ac9164895
+        uses: wydler/hcloud-self-hosted-github-runner@9a00499378194ef401e5acd45d392e9c36ba2678
         with:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
@@ -103,7 +103,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_SHRHC_PRIVATE_KEY }}
           
       - name: Delete runner
-        uses: wydler/hcloud-self-hosted-github-runner@adb07ecd3042326c0758fd08d9b9700ac9164895
+        uses: wydler/hcloud-self-hosted-github-runner@9a00499378194ef401e5acd45d392e9c36ba2678
         with:
           mode: delete
           github_token: ${{ steps.generate_token.outputs.token }}
