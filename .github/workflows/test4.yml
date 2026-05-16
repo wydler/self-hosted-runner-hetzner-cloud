@@ -72,7 +72,7 @@ jobs:
           runner_scope: ${{ inputs.runner_scope }}
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
           ssh_key: ${{ inputs.hcloud_ssh_key }}
-          runner_start_method: standalone
+          runner_start_method: systemd
 
   do-the-job:
     name: Do the job on the runner
