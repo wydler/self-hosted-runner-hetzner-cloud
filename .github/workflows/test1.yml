@@ -138,6 +138,7 @@ jobs:
       server_id: ${{ steps.create-hcloud-runner.outputs.server_id }}
 
     strategy:
+      fail-fast: false
       matrix:
         runner: ${{ fromJson(needs.prepare-runner-matrix.outputs.matrix) }}
         
