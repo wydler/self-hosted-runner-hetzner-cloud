@@ -77,6 +77,7 @@ jobs:
     if: ${{ needs.collect.outputs.matrix != '[]' }}
 
     strategy:
+      fail-fast: false
       matrix:
         include: ${{ fromJson(needs.collect.outputs.matrix) }}
 
