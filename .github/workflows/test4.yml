@@ -1,6 +1,51 @@
 name: "Example"
-on:
-  workflow_dispatch:
+
+on:      
+   workflow_dispatch:
+     inputs:
+       location:
+        type: choice
+        description: Location
+        required: false
+        options: 
+          - hel1  # Helsinki, Finnland
+          - fsn1  # Falkenstein, Germany
+          - nbg1  # Nuremberg, Germany
+        default: "fsn1"     
+       os:
+        type: choice
+        description: Operating System
+        required: false
+        options: 
+          - ubuntu-22.04
+          - ubuntu-24.04
+        default: "ubuntu-24.04"
+       servertype:
+        type: choice 
+        description: Server Type
+        required: true
+        options:
+          - cx33
+          - cpx22
+        default: "cx33"
+       runner_count:
+         type: string
+         description: Number of runners
+         required: true
+         default: "2"
+       runner_scope:
+         type: choice 
+         description: Select scope for this runner
+         required: false
+         options:
+           - repo
+           - org
+         default: 'org'
+       hcloud_ssh_key:
+         type: string
+         description: ID des SSH Keys
+         required: false
+         default: "112347186"
 
 jobs:
   create-runner:
@@ -10,16 +55,28 @@ jobs:
       label: ${{ steps.create-hcloud-runner.outputs.label }}
       server_id: ${{ steps.create-hcloud-runner.outputs.server_id }}
     steps:
+      - name: Generate GitHub token
+        id: generate_token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859  # v3.0.0
+        with:
+          app-id: ${{ secrets.GH_APP_SHRHC_ID }}
+          private-key: ${{ secrets.GH_APP_SHRHC_PRIVATE_KEY }}
+          
       - name: Create runner
         id: create-hcloud-runner
-        uses: Cyclenerd/hcloud-github-runner@v1
+        uses: wydler/hcloud-self-hosted-github-runner@7269a6fdb6a8553c5add4598dce44bf991a43668
         with:
           mode: create
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-          server_type: cx23
-          location: nbg1  # Nuremberg, Germany
-          image: rocky-9 # Rocky Linux 9
+          github_token: ${{ steps.generate_token.outputs.token }}
+          hcloud_token: ${{ secrets.DW_HCLOUD_TOKEN_GHSHR_RW }}
+          server_type: ${{ inputs.servertype }}
+          location: ${{ inputs.location }}  
+          image: 386465088
+          server_wait: "120"
+          # name: "gh-runner-${{ matrix.runner }}"
+          runner_scope: ${{ inputs.runner_scope }}
+          create_wait: "1" # 1*10 Sekunden = 10 Sekunden
+          ssh_key: ${{ inputs.hcloud_ssh_key }}      
 
   do-the-job:
     name: Do the job on the runner
@@ -39,11 +96,19 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ always() }} # required to stop the runner even if the error happened in the previous jobs
     steps:
+      - name: Generate GitHub token
+        id: generate_token
+        uses: actions/create-github-app-token@f8d387b68d61c58ab83c6c016672934102569859  # v3.0.0
+        with:
+          app-id: ${{ secrets.GH_APP_SHRHC_ID }}
+          private-key: ${{ secrets.GH_APP_SHRHC_PRIVATE_KEY }}
+          
       - name: Delete runner
-        uses: Cyclenerd/hcloud-github-runner@v1
+        uses: wydler/hcloud-self-hosted-github-runner@7269a6fdb6a8553c5add4598dce44bf991a43668
         with:
           mode: delete
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          hcloud_token: ${{ secrets.HCLOUD_TOKEN }}
-          name: ${{ needs.create-runner.outputs.label }}
-          server_id: ${{ needs.create-runner.outputs.server_id }}
+          github_token: ${{ steps.generate_token.outputs.token }}
+          hcloud_token: ${{ secrets.DW_HCLOUD_TOKEN_GHSHR_RW }}
+          server_id: ${{ matrix.server_id }}
+          name: ${{ matrix.runner }}
+          runner_scope: ${{ inputs.runner_scope }}
