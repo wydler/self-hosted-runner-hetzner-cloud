@@ -88,8 +88,8 @@ jobs:
           private-key: ${{ secrets.GH_APP_SHRHC_PRIVATE_KEY }}
           
       - name: Delete Hetzner server and GitHub runner
-        uses: getupcloud-images/hcloud-github-runner@085e13c939204d85525bd6df37d6027bf0a1afef
-        # uses: wydler/hcloud-self-hosted-github-runner@7269a6fdb6a8553c5add4598dce44bf991a43668
+        # uses: getupcloud-images/hcloud-github-runner@085e13c939204d85525bd6df37d6027bf0a1afef
+        uses: wydler/hcloud-self-hosted-github-runner@7269a6fdb6a8553c5add4598dce44bf991a43668
         with:
           mode: delete
           github_token: ${{ steps.generate-token.outputs.token }}
