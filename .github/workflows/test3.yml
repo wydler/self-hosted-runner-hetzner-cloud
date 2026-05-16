@@ -38,7 +38,7 @@ jobs:
         run: |
           if [ "$SCOPE" = "repo" ]; then
             echo "Fetching repo runners"
-            gh api /repos/${{ github.repository }}/actions/runners --paginat
+            gh api /repos/${{ github.repository }}/actions/runners --paginate
             gh api /repos/${{ github.repository }}/actions/runners --paginate > runners.json
           else
             echo "Fetching org runners"
