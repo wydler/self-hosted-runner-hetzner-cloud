@@ -59,7 +59,7 @@ jobs:
           
       - name: Create runner
         id: create-hcloud-runner
-        uses: wydler/hcloud-self-hosted-github-runner@a212cb09d700d2bbe60a7702b292f41d51a4c0a4
+        uses: wydler/hcloud-self-hosted-github-runner@2262ee7f7a8d265f7d60578844400e935559c0ab
         with:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
@@ -72,7 +72,7 @@ jobs:
           runner_scope: ${{ inputs.runner_scope }}
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
           ssh_key: ${{ inputs.hcloud_ssh_key }}
-          runner_start_method: systemd
+          runner_start_method: standalone
 
   do-the-job:
     name: Do the job on the runner
@@ -103,7 +103,7 @@ jobs:
           private-key: ${{ secrets.GH_APP_SHRHC_PRIVATE_KEY }}
           
       - name: Delete runner
-        uses: wydler/hcloud-self-hosted-github-runner@a212cb09d700d2bbe60a7702b292f41d51a4c0a4
+        uses: wydler/hcloud-self-hosted-github-runner@2262ee7f7a8d265f7d60578844400e935559c0ab
         with:
           mode: delete
           github_token: ${{ steps.generate_token.outputs.token }}
