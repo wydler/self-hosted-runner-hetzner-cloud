@@ -153,7 +153,7 @@ jobs:
       - name: Create runner instance
         id: create-hcloud-runner
         # uses: Cyclenerd/hcloud-github-runner@54da4707b01dfca5dd38cd15cde4afcd950f2b4a  # v1.4.0
-        uses: wydler/hcloud-self-hosted-github-runner@b49c3ecf5cbe4fc012637841b84ef2dd141d6223
+        uses: wydler/hcloud-self-hosted-github-runner@c2a407295a3f3ccf0ca7473d0489849a8fd71354  # 1.0.0
         # uses: getupcloud-images/hcloud-github-runner@085e13c939204d85525bd6df37d6027bf0a1afef
         with:
           mode: create
