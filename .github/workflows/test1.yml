@@ -171,7 +171,6 @@ jobs:
           location: ${{ inputs.location }}  
           image: ${{ needs.get-hcloud-snapshot.outputs.snapshot_id }}
           server_wait: "120"
-          # name: "gh-runner-${{ matrix.runner }}"
           runner_scope: ${{ inputs.runner_scope }}
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
           ssh_key: ${{ inputs.hcloud_ssh_key }}
