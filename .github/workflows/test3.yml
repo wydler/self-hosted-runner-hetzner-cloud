@@ -72,9 +72,6 @@ jobs:
             fi
 
             echo "Fetching org runners"
-            # gh api /orgs/${{ github.repository_owner }}/actions/runners --paginate > runners.json
-            #gh api /orgs/${{ github.repository_owner }}/actions/runner-groups/${MY_GITHUB_RUNNER_GROUP_ID}/runners --paginate > runners.json
-
             curl -L \
             	--fail-with-body \
             	-o "runners.json" \
@@ -86,9 +83,6 @@ jobs:
 
           else
             echo "Fetching repo runners"
-            #gh api /repos/${{ github.repository }}/actions/runners --paginate
-            # gh api /repos/${{ github.repository }}/actions/runners --paginate > runners.json
-
             curl -L \
             	--fail-with-body \
             	-o "runners.json" \
