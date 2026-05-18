@@ -47,6 +47,7 @@ on:
          description: Select scope for this runner
          required: false
          options:
+           - Default
            - Daniel
            - Test
          default: 'Default'         
