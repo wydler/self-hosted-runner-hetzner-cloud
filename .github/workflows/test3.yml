@@ -52,12 +52,8 @@ jobs:
           	exit 1
           }
 
-          if [ "$INPUT_RUNNER_SCOPE" = "repo" ]; then
-            echo "Fetching repo runners"
-            gh api /repos/${{ github.repository }}/actions/runners --paginate
-            gh api /repos/${{ github.repository }}/actions/runners --paginate > runners.json
-            
-          else
+          # 
+          if [[ "$INPUT_RUNNER_SCOPE" == "org" ]]; then
             curl -L \
             	--fail-with-body \
             	-o "github-runner-groups.json" \
@@ -77,7 +73,21 @@ jobs:
 
             echo "Fetching org runners"
             # gh api /orgs/${{ github.repository_owner }}/actions/runners --paginate > runners.json
-            gh api /orgs/${{ github.repository_owner }}/actions/runner-groups/${MY_GITHUB_RUNNER_GROUP_ID}/runners --paginate > runners.json
+            #gh api /orgs/${{ github.repository_owner }}/actions/runner-groups/${MY_GITHUB_RUNNER_GROUP_ID}/runners --paginate > runners.json
+
+            curl -L \
+            	--fail-with-body \
+            	-o "runners.json" \
+            	-H "Accept: application/vnd.github+json" \
+            	-H "Authorization: Bearer ${GH_TOKEN}" \
+            	-H "X-GitHub-Api-Version: 2022-11-28" \
+            	"https://api.github.com/orgs/${{ github.repository_owner }}/actions/runner-groups/${MY_GITHUB_RUNNER_GROUP_ID}/runners" \
+            	|| exit_with_failure "Failed to fetch runners from ${INPUT_RUNNER_SCOPE}:${INPUT_RUNNER_GROUP}!"
+
+          else
+            echo "Fetching repo runners"
+            gh api /repos/${{ github.repository }}/actions/runners --paginate
+            gh api /repos/${{ github.repository }}/actions/runners --paginate > runners.json
           fi
 
       - name: Build deletion matrix (extract server IDs from labels)
