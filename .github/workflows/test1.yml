@@ -42,6 +42,14 @@ on:
            - repo
            - org
          default: 'org'
+       runner_group:
+         type: choice 
+         description: Select scope for this runner
+         required: false
+         options:
+           - Daniel
+           - Test
+         default: 'Default'         
        runner_start_method:
          type: choice 
          description: Select scope for this runner
@@ -168,3 +176,4 @@ jobs:
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
           ssh_key: ${{ inputs.hcloud_ssh_key }}
           runner_start_method: ${{ inputs.runner_start_method }}
+          runner_group: ${{ inputs.runner_group }}
