@@ -162,7 +162,7 @@ jobs:
       - name: Create runner instance
         id: create-hcloud-runner
         # uses: wydler/hcloud-self-hosted-github-runner@c2a407295a3f3ccf0ca7473d0489849a8fd71354  # 1.0.0
-        uses: wydler/hcloud-self-hosted-github-runner@251e022b7650986f4f4a445d2bd33211427bd759
+        uses: wydler/hcloud-self-hosted-github-runner@9b01f89f78542a52537c8ca69961a7b4d31d6335
         with:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
