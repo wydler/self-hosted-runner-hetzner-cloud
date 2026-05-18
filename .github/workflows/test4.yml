@@ -74,7 +74,7 @@ jobs:
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
           ssh_key: ${{ inputs.hcloud_ssh_key }}
           runner_start_method: systemd
-          runner_group: "test"
+          runner_group: "Daniel"
 
   do-the-job:
     name: Do the job on the runner
