@@ -50,7 +50,7 @@ on:
            - Default
            - Daniel
            - Test
-         default: 'Default'         
+         default: 'Default'
        runner_start_method:
          type: choice 
          description: Select scope for this runner
