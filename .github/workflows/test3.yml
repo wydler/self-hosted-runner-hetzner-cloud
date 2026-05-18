@@ -86,8 +86,17 @@ jobs:
 
           else
             echo "Fetching repo runners"
-            gh api /repos/${{ github.repository }}/actions/runners --paginate
-            gh api /repos/${{ github.repository }}/actions/runners --paginate > runners.json
+            #gh api /repos/${{ github.repository }}/actions/runners --paginate
+            # gh api /repos/${{ github.repository }}/actions/runners --paginate > runners.json
+
+            curl -L \
+            	--fail-with-body \
+            	-o "runners.json" \
+            	-H "Accept: application/vnd.github+json" \
+            	-H "Authorization: Bearer ${GH_TOKEN}" \
+            	-H "X-GitHub-Api-Version: 2022-11-28" \
+            	"https://api.github.com/repos/${{ github.repository }}/actions/runners" \
+            	|| exit_with_failure "Failed to fetch runners from ${INPUT_RUNNER_SCOPE}:${INPUT_RUNNER_GROUP}!"
           fi
 
       - name: Build deletion matrix (extract server IDs from labels)
