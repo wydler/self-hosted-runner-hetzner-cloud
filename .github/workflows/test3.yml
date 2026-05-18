@@ -12,8 +12,17 @@ on:
            - repo
            - org
          default: 'org'
+       runner_group:
+         type: choice 
+         description: Select scope for this runner
+         required: false
+         options:
+           - Default
+           - Daniel
+           - Test
+         default: 'Default'
 
-  
+
 jobs:
   collect:
     name: Collect runners and build deletion matrix
