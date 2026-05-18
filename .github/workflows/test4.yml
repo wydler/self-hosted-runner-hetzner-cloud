@@ -60,7 +60,7 @@ jobs:
       - name: Create runner
         id: create-hcloud-runner
         # uses: wydler/hcloud-self-hosted-github-runner@c2a407295a3f3ccf0ca7473d0489849a8fd71354  # 1.0.0
-        uses: wydler/hcloud-self-hosted-github-runner@2c3edb971c238e09bd438d55c6884c7d205a6832
+        uses: wydler/hcloud-self-hosted-github-runner@dac5598ed8f0fecb60cce517917329597f632179
         with:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
@@ -105,7 +105,7 @@ jobs:
           
       - name: Delete runner
         # uses: wydler/hcloud-self-hosted-github-runner@c2a407295a3f3ccf0ca7473d0489849a8fd71354  # 1.0.0
-        uses: wydler/hcloud-self-hosted-github-runner@2c3edb971c238e09bd438d55c6884c7d205a6832
+        uses: wydler/hcloud-self-hosted-github-runner@dac5598ed8f0fecb60cce517917329597f632179
         with:
           mode: delete
           github_token: ${{ steps.generate_token.outputs.token }}
