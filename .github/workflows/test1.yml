@@ -20,6 +20,7 @@ on:
         options: 
           - ubuntu-22.04
           - ubuntu-24.04
+          - ubuntu-26.04          
         default: "ubuntu-24.04"
        servertype:
         type: choice 
