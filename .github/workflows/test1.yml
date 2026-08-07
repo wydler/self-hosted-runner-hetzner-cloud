@@ -26,9 +26,9 @@ on:
         description: Server Type
         required: true
         options:
-          - cx33
-          - cpx22
-        default: "cx33"
+          - cpx32        
+          - ccx23
+        default: "cpx32"
        runner_count:
          type: string
          description: Number of runners
