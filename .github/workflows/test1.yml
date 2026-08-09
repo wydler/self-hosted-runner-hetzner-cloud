@@ -163,7 +163,8 @@ jobs:
       - name: Create runner instance
         id: create-hcloud-runner
         # uses: wydler/hcloud-self-hosted-github-runner@c2a407295a3f3ccf0ca7473d0489849a8fd71354  # 1.0.0
-        uses: wydler/hcloud-self-hosted-github-runner@9b01f89f78542a52537c8ca69961a7b4d31d6335
+        # uses: wydler/hcloud-self-hosted-github-runner@9b01f89f78542a52537c8ca69961a7b4d31d6335
+        uses: wydler/hcloud-self-hosted-github-runner@7d1312da5ace140c0f3d09ae0646eb0ffe0fd4bb
         with:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
@@ -177,3 +178,4 @@ jobs:
           ssh_key: ${{ inputs.hcloud_ssh_key }}
           runner_start_method: ${{ inputs.runner_start_method }}
           runner_group: ${{ inputs.runner_group }}
+          runner_labels: "test1,test"
