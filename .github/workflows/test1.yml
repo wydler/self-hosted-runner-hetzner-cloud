@@ -66,6 +66,11 @@ on:
          description: ID des SSH Keys
          required: true
          default: "112347186"    
+       runner_labels:
+         type: string
+         description: Labels für den Runner
+         required: false
+         default: "" 
 
 jobs:
   get-hcloud-snapshot:
@@ -178,4 +183,4 @@ jobs:
           ssh_key: ${{ inputs.hcloud_ssh_key }}
           runner_start_method: ${{ inputs.runner_start_method }}
           runner_group: ${{ inputs.runner_group }}
-          runner_labels: "test1,test"
+          runner_labels: ${{ inputs.runner_labels }} 
