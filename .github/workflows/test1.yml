@@ -169,7 +169,7 @@ jobs:
         id: create-hcloud-runner
         # uses: wydler/hcloud-self-hosted-github-runner@c2a407295a3f3ccf0ca7473d0489849a8fd71354  # 1.0.0
         # uses: wydler/hcloud-self-hosted-github-runner@9b01f89f78542a52537c8ca69961a7b4d31d6335
-        uses: wydler/hcloud-self-hosted-github-runner@e396e003c08832512b11b41a555101c79004cb55
+        uses: wydler/hcloud-self-hosted-github-runner@cc1fdca4c2b3c9aca2902b65e1056ff3d91240b2
         with:
           mode: create
           github_token: ${{ steps.generate_token.outputs.token }}
