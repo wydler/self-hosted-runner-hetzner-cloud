@@ -64,7 +64,7 @@ on:
        hcloud_ssh_key:
          type: string
          description: ID des SSH Keys
-         required: false
+         required: true
          default: "112347186"    
 
 jobs:
