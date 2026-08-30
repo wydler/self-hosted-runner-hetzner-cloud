@@ -86,6 +86,8 @@ jobs:
       - name: Looking for a snapshot ID
         id: find_snapshot
         run: |
+          set -euo pipefail
+          
           # Alle verfügbaren Snapshots mit passendem OS-Label anzeigen
           echo -e "$(hcloud image list --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc")\n"
 
@@ -103,7 +105,7 @@ jobs:
           else
           
             # Fehler ausgeben, wenn kein Snapshot gefunden wurde
-            echo "Keine Snapshot für das angegebene OS gefunden."
+            echo "::error::Keine Snapshot für das angegebene OS gefunden."
 
             # Workflow mit Fehler beenden
             exit 1
@@ -128,10 +130,22 @@ jobs:
       - name: Install Hetzner Cloud Cli
         uses: hetznercloud/setup-hcloud@ac9e7d74fb41a3ca44a6a3da123bd5aa70731e3a  # v2.0.0
 
-      # Sucht nach dem neuesten Snapshot anhand des OS-Labels
+      # Sucht nach dem SSH Key anhand des Names
       - name: Looking for a ssh key ID
         id: find_sshkey
         run: |
+          set -euo pipefail
+
+          #
+          if [ -z "${{ inputs.hcloud_ssh_key }}" ]; then
+
+            # Fehler ausgeben, wenn kein Name eingegebene wurde
+            echo "::error::Kein SSH Key angegeben."
+
+            # Workflow mit Fehler beenden
+            exit 1
+          fi
+          
           # Alle verfügbaren SSH Keys anzeigen
           echo -e "$(hcloud ssh-key list)\n"
 
@@ -148,8 +162,8 @@ jobs:
             
           else
           
-            # Fehler ausgeben, wenn kein Snapshot gefunden wurde
-            echo "Keine SSH Key für den angegebenen Namen gefunden."
+            # Fehler ausgeben, wenn kein SSH Key gefunden wurde
+            echo "::error:: Keine SSH Key für den angegebenen Namen gefunden."
 
             # Workflow mit Fehler beenden
             exit 1
@@ -162,7 +176,7 @@ jobs:
         run: echo "${{ steps.find_sshkey.outputs.id }}"
 
     outputs:
-      find_sshkey_id: ${{ steps.find_sshkey.outputs.id }}
+      ssh_key_id: ${{ steps.find_sshkey.outputs.id }}
 
 ###
   prepare-runner-matrix:
@@ -193,6 +207,7 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - get-hcloud-snapshot
+      - get-hcloud-sshkey      
       - prepare-runner-matrix
     
     outputs:
@@ -227,7 +242,7 @@ jobs:
           server_wait: "120"
           runner_scope: ${{ inputs.runner_scope }}
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
-          ssh_key: ${{ steps.find_sshkey.outputs.id }}
+          ssh_key: ${{ needs.get-hcloud-sshkey.outputs.ssh_key_id }}
           runner_start_method: ${{ inputs.runner_start_method }}
           runner_group: ${{ inputs.runner_group }}
           runner_labels: ${{ inputs.runner_labels }} 
