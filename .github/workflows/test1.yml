@@ -136,8 +136,7 @@ jobs:
           echo -e "$(hcloud ssh-key list)\n"
 
           # ID des SSH Key ermitteln
-          #object=$(hcloud ssh-key describe "$SSH_KEY_NAME" | awk '/^ID:/ {getline; print}')
-          object=$(hcloud ssh-key describe "${{ inputs.hcloud_ssh_key }} | awk '/^ID:/ {print $2}')
+          object=$(hcloud ssh-key describe "${{ inputs.hcloud_ssh_key }}" | awk '/^ID:/ {print $2}')
           # 
           if [ -n "$object" ]; then
             
