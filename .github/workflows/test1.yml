@@ -118,7 +118,55 @@ jobs:
     outputs:
       snapshot_id: ${{ steps.find_snapshot.outputs.id }}
 
+###
+  get-hcloud-sshkey:
+    name: Get Hetzner Cloud SSH Key ID
+    runs-on: ubuntu-latest
 
+    steps:
+      # Installiert die offizielle Hetzner Cloud CLI
+      - name: Install Hetzner Cloud Cli
+        uses: hetznercloud/setup-hcloud@ac9e7d74fb41a3ca44a6a3da123bd5aa70731e3a  # v2.0.0
+
+      # Sucht nach dem neuesten Snapshot anhand des OS-Labels
+      - name: Looking for a ssh key ID
+        id: find_sshkey
+        run: |
+          # Alle verfügbaren SSH Keys anzeigen
+          echo -e "$(hcloud ssh-key list)\n"
+
+          # Neueste Snapshot-ID ermitteln
+          SSH_KEY_ID=$(hcloud ssh-key describe "${{ inputs.hcloud_ssh_key }}" -o columns=id)
+          
+          object=$(hcloud image list --output "columns=ID" --output "noheader" --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc" | head -n 1 )
+          
+          if [ -n "$object" ]; then
+            
+            # Gefundene SSH Key ID ausgeben
+            echo ID: "$object"
+
+            # SSH Key ID für nachfolgende Steps exportieren
+            echo "id=$object" >> $GITHUB_OUTPUT
+            
+          else
+          
+            # Fehler ausgeben, wenn kein Snapshot gefunden wurde
+            echo "Keine SSH Key für den angegebenen Namen gefunden."
+
+            # Workflow mit Fehler beenden
+            exit 1
+          fi
+        env:
+           # Hetzner Cloud API Token aus GitHub Secrets
+           HCLOUD_TOKEN: ${{ secrets.HCLOUD_TOKEN_GHSHR_RW }}
+
+      - name: Write SSH Key ID
+        run: echo "${{ steps.find_sshkey.outputs.id }}"
+
+    outputs:
+      find_sshkey_id: ${{ steps.find_sshkey.outputs.id }}
+
+###
   prepare-runner-matrix:
     name: Prepare runner matrix
     runs-on: ubuntu-latest
@@ -180,7 +228,7 @@ jobs:
           server_wait: "120"
           runner_scope: ${{ inputs.runner_scope }}
           create_wait: "1" # 1*10 Sekunden = 10 Sekunden
-          ssh_key: ${{ inputs.hcloud_ssh_key }}
+          ssh_key: ${{ steps.find_sshkey.outputs.id }}
           runner_start_method: ${{ inputs.runner_start_method }}
           runner_group: ${{ inputs.runner_group }}
           runner_labels: ${{ inputs.runner_labels }} 
