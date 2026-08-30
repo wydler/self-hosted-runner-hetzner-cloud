@@ -75,7 +75,7 @@ on:
 jobs:
   get-hcloud-snapshot:
     name: Get Hetzner Cloud Snapshot ID
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     steps:
       # Installiert die offizielle Hetzner Cloud CLI
@@ -121,7 +121,7 @@ jobs:
 ###
   get-hcloud-sshkey:
     name: Get Hetzner Cloud SSH Key ID
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
 
     steps:
       # Installiert die offizielle Hetzner Cloud CLI
@@ -167,7 +167,7 @@ jobs:
 ###
   prepare-runner-matrix:
     name: Prepare runner matrix
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     needs:
       - get-hcloud-snapshot
       - get-hcloud-sshkey
