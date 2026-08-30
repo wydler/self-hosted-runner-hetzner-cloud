@@ -131,7 +131,7 @@ jobs:
         uses: hetznercloud/setup-hcloud@ac9e7d74fb41a3ca44a6a3da123bd5aa70731e3a  # v2.0.0
 
       # Sucht nach dem SSH Key anhand des Namens
-      - name: Looking for a ssh key ID
+      - name: Looking for SSH key ID
         id: find_sshkey
         run: |
           set -euo pipefail
