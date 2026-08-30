@@ -135,16 +135,6 @@ jobs:
         id: find_sshkey
         run: |
           set -euo pipefail
-
-          #
-          if [ -z "${{ inputs.hcloud_ssh_key }}" ]; then
-
-            # Fehler ausgeben, wenn kein Name eingegebene wurde
-            echo "::error::Kein SSH Key angegeben."
-
-            # Workflow mit Fehler beenden
-            exit 1
-          fi
           
           # Alle verfügbaren SSH Keys anzeigen
           echo -e "$(hcloud ssh-key list)\n"
