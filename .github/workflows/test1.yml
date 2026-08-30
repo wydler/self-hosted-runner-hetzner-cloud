@@ -85,9 +85,7 @@ jobs:
       # Sucht nach dem neuesten Snapshot anhand des OS-Labels
       - name: Looking for a snapshot ID
         id: find_snapshot
-        run: |
-          set -euo pipefail
-          
+        run: |          
           # Alle verfügbaren Snapshots mit passendem OS-Label anzeigen
           echo -e "$(hcloud image list --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc")\n"
 
@@ -105,7 +103,7 @@ jobs:
           else
           
             # Fehler ausgeben, wenn kein Snapshot gefunden wurde
-            echo "Keine Snapshot für das angegebene OS gefunden."
+            echo "::error::Keine Snapshot für das angegebene OS gefunden."
 
             # Workflow mit Fehler beenden
             exit 1
@@ -133,9 +131,7 @@ jobs:
       # Sucht nach dem SSH Key anhand des Namens
       - name: Looking for SSH key ID
         id: find_sshkey
-        run: |
-          set -euo pipefail
-          
+        run: |         
           # Alle verfügbaren SSH Keys anzeigen
           echo -e "$(hcloud ssh-key list)\n"
 
@@ -153,7 +149,7 @@ jobs:
           else
           
             # Fehler ausgeben, wenn kein SSH Key gefunden wurde
-            echo "SSH Key '${{ inputs.hcloud_ssh_key }}' wurde nicht gefunden."
+            echo "::error::SSH Key '${{ inputs.hcloud_ssh_key }}' wurde nicht gefunden."
 
             # Workflow mit Fehler beenden
             exit 1
