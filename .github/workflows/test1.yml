@@ -100,7 +100,7 @@ jobs:
             echo ID: "$object"
 
             # Snapshot-ID für nachfolgende Steps exportieren
-            echo "id=$object" >> $GITHUB_OUTPUT
+            echo "id=$object" >> "$GITHUB_OUTPUT"
             
           else
           
@@ -130,7 +130,7 @@ jobs:
       - name: Install Hetzner Cloud Cli
         uses: hetznercloud/setup-hcloud@ac9e7d74fb41a3ca44a6a3da123bd5aa70731e3a  # v2.0.0
 
-      # Sucht nach dem SSH Key anhand des Names
+      # Sucht nach dem SSH Key anhand des Namens
       - name: Looking for a ssh key ID
         id: find_sshkey
         run: |
@@ -148,7 +148,7 @@ jobs:
             echo ID: "$object"
 
             # SSH Key ID für nachfolgende Steps exportieren
-            echo "id=$object" >> $GITHUB_OUTPUT
+            echo "id=$object" >> "$GITHUB_OUTPUT"
             
           else
           
@@ -183,12 +183,17 @@ jobs:
       - name: Generate matrix
         id: set-matrix
         run: |
-          count=${{ inputs.runner_count }}
+          count="${{ inputs.runner_count }}"
 
+          if ! [[ "$count" =~ ^[1-9][0-9]*$ ]]; then
+            echo "::error::runner_count muss eine positive Ganzzahl sein."
+            exit 1
+          fi
+         
           matrix=$(jq -cn --argjson count "$count" '
             [range(1; $count + 1)]
           ')
-
+         
           echo "matrix=$matrix" >> "$GITHUB_OUTPUT"
 
 
