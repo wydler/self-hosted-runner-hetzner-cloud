@@ -105,7 +105,7 @@ jobs:
           else
           
             # Fehler ausgeben, wenn kein Snapshot gefunden wurde
-            echo "::error::Keine Snapshot für das angegebene OS gefunden."
+            echo "Keine Snapshot für das angegebene OS gefunden."
 
             # Workflow mit Fehler beenden
             exit 1
@@ -153,7 +153,7 @@ jobs:
           else
           
             # Fehler ausgeben, wenn kein SSH Key gefunden wurde
-            echo "::error::SSH Key '${{ inputs.hcloud_ssh_key }}' wurde nicht gefunden."
+            echo "SSH Key '${{ inputs.hcloud_ssh_key }}' wurde nicht gefunden."
 
             # Workflow mit Fehler beenden
             exit 1
