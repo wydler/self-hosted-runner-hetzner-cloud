@@ -135,11 +135,10 @@ jobs:
           # Alle verfügbaren SSH Keys anzeigen
           echo -e "$(hcloud ssh-key list)\n"
 
-          # Neueste Snapshot-ID ermitteln
-          SSH_KEY_ID=$(hcloud ssh-key describe "${{ inputs.hcloud_ssh_key }}" -o columns=id)
-          
-          object=$(hcloud image list --output "columns=ID" --output "noheader" --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc" | head -n 1 )
-          
+          # ID des SSH Key ermitteln
+          object=$(hcloud ssh-key describe "$SSH_KEY_NAME" | awk '/^ID:/ {getline; print}')
+         
+          # 
           if [ -n "$object" ]; then
             
             # Gefundene SSH Key ID ausgeben
