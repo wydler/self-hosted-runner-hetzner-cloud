@@ -63,9 +63,9 @@ on:
          default: 'systemd'         
        hcloud_ssh_key:
          type: string
-         description: ID des SSH Keys
+         description: Name des SSH Keys
          required: true
-         default: "112347186"    
+         default: ""    
        runner_labels:
          type: string
          description: Labels für den Runner
