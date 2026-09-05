@@ -74,6 +74,7 @@ on:
          required: false
          default: "" 
 
+
 jobs:
   get-hcloud-snapshot:
     name: Get Hetzner Cloud Snapshot ID
@@ -211,7 +212,7 @@ jobs:
       - get-hcloud-snapshot
       - get-hcloud-sshkey      
       - prepare-runner-matrix
-    
+
     outputs:
       label: ${{ steps.create-hcloud-runner.outputs.label }}
       server_id: ${{ steps.create-hcloud-runner.outputs.server_id }}
@@ -220,7 +221,7 @@ jobs:
       fail-fast: false
       matrix:
         runner: ${{ fromJson(needs.prepare-runner-matrix.outputs.matrix) }}
-        
+
     steps:
       - name: Generate GitHub token
         id: generate_token
@@ -228,7 +229,7 @@ jobs:
         with:
           app-id: ${{ secrets.GH_APP_SHRHC_ID }}
           private-key: ${{ secrets.GH_APP_SHRHC_PRIVATE_KEY }}
-          
+
       - name: Create runner instance
         id: create-hcloud-runner
         # uses: wydler/hcloud-self-hosted-github-runner@c2a407295a3f3ccf0ca7473d0489849a8fd71354  # 1.0.0
