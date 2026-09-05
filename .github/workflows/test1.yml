@@ -182,9 +182,6 @@ jobs:
   prepare-runner-matrix:
     name: Prepare runner matrix
     runs-on: ubuntu-slim
-#    needs:
-#      - get-hcloud-snapshot
-#      - get-hcloud-sshkey
 
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
