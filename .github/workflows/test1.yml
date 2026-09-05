@@ -27,6 +27,7 @@ on:
         description: Server Type
         required: true
         options:
+          - cx43
           - cax21
           - cax31
           - cpx32        
