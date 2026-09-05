@@ -88,18 +88,17 @@ jobs:
       - name: Looking for a snapshot ID
         id: find_snapshot
         run: |
-          #
+          # Ausgewaehlten Servertyp aus dem GitHub-Action-Input übernehmen
           servertype="${{ inputs.servertype }}"
-         
+
+          # CAX-Server verwenden ARM64-Prozessoren.
+          # Für die hcloud CLI wird die Architektur als "arm" angegeben.
+          # Alle anderen Servertypen verwenden x86.
           if [[ "${servertype:0:3}" == "cax" ]]; then
             arch="arm"
           else
             arch="x86"
           fi
-
-          echo "Server type: $servertype"
-          echo "Architecture: $arch"
-
 
           # Alle verfügbaren Snapshots mit passendem OS-Label anzeigen
           echo -e "$(hcloud image list --type "snapshot" -l "os=${{ inputs.os }}" -a "$arch" -s "id:desc")\n"
