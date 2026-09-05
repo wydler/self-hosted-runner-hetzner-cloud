@@ -89,17 +89,17 @@ jobs:
         id: find_snapshot
         run: |
           #
-          case "${{ inputs.servertype }}" in
-            cax*)
-              arch="arm64"
-              ;;
-            *)
-              arch="x86"
-              ;;
-          esac
+          servertype="${{ inputs.servertype }}"
+         
+          if [[ "${servertype:0:3}" == "cax" ]]; then
+            arch="arm64"
+          else
+            arch="x86"
+          fi
 
-          echo "Server type: ${{ inputs.servertype }}"
+          echo "Server type: $servertype"
           echo "Architecture: $arch"
+
 
           # Alle verfügbaren Snapshots mit passendem OS-Label anzeigen
           echo -e "$(hcloud image list --type "snapshot" -l "os=${{ inputs.os }}" -a "$arch" -s "id:desc")\n"
