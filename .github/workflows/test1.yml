@@ -92,7 +92,7 @@ jobs:
           servertype="${{ inputs.servertype }}"
          
           if [[ "${servertype:0:3}" == "cax" ]]; then
-            arch="arm64"
+            arch="arm"
           else
             arch="x86"
           fi
