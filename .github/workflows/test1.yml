@@ -89,11 +89,14 @@ jobs:
         id: find_snapshot
         run: |
           #
-          if [[ "${{ inputs.servertype }}" == cax* ]]; then
-            arch="arm64"
-          else
-            arch="x86"
-          fi
+          case "${{ inputs.servertype }}" in
+            cax*)
+              arch="arm64"
+              ;;
+            *)
+              arch="x86"
+              ;;
+          esac
 
           echo "Server type: ${{ inputs.servertype }}"
           echo "Architecture: $arch"
