@@ -87,12 +87,22 @@ jobs:
       # Sucht nach dem neuesten Snapshot anhand des OS-Labels
       - name: Looking for a snapshot ID
         id: find_snapshot
-        run: |          
+        run: |
+          #
+          if [[ "${{ inputs.servertype }}" == cax* ]]; then
+            arch="arm64"
+          else
+            arch="x86"
+          fi
+
+          echo "Server type: ${{ inputs.servertype }}"
+          echo "Architecture: $arch"
+
           # Alle verfügbaren Snapshots mit passendem OS-Label anzeigen
-          echo -e "$(hcloud image list --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc")\n"
+          echo -e "$(hcloud image list --type "snapshot" -l "os=${{ inputs.os }}" -a "$arch" -s "id:desc")\n"
 
           # Neueste Snapshot-ID ermitteln
-          object=$(hcloud image list --output "columns=ID" --output "noheader" --type "snapshot" -l "os=${{ inputs.os }}" -s "id:desc" | head -n 1 )
+          object=$(hcloud image list --output "columns=ID" --output "noheader" --type "snapshot" -l "os=${{ inputs.os }}" -a "$arch" -s "id:desc" | head -n 1 )
           
           if [ -n "$object" ]; then
             
