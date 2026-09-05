@@ -27,6 +27,8 @@ on:
         description: Server Type
         required: true
         options:
+          - cax21
+          - cax31
           - cpx32        
           - ccx23
         default: "cpx32"
