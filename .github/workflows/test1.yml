@@ -132,7 +132,7 @@ jobs:
     outputs:
       snapshot_id: ${{ steps.find_snapshot.outputs.id }}
 
-###
+
   get-hcloud-sshkey:
     name: Get Hetzner Cloud SSH Key ID
     runs-on: ubuntu-slim
@@ -178,7 +178,7 @@ jobs:
     outputs:
       ssh_key_id: ${{ steps.find_sshkey.outputs.id }}
 
-###
+
   prepare-runner-matrix:
     name: Prepare runner matrix
     runs-on: ubuntu-slim
